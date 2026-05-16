@@ -1,0 +1,54 @@
+import base64
+
+# Function to protect (encode) file content
+def protect_file(input_file, output_file):
+    try:
+        with open(input_file, "rb") as file:
+            content = file.read()
+
+        encoded_content = base64.b64encode(content)
+
+        with open(output_file, "wb") as file:
+            file.write(encoded_content)
+
+        print(f"File protected successfully: {output_file}")
+
+    except Exception as e:
+        print("Error:", e)
+
+
+# Function to restore (decode) file content
+def restore_file(input_file, output_file):
+    try:
+        with open(input_file, "rb") as file:
+            encoded_content = file.read()
+
+        decoded_content = base64.b64decode(encoded_content)
+
+        with open(output_file, "wb") as file:
+            file.write(decoded_content)
+
+        print(f"File restored successfully: {output_file}")
+
+    except Exception as e:
+        print("Error:", e)
+
+
+# Main Program
+print("1. Protect File")
+print("2. Restore File")
+
+choice = input("Enter your choice (1 or 2): ")
+
+if choice == "1":
+    input_file = input("Enter the original file name: ")
+    output_file = input("Enter the protected file name: ")
+    protect_file(input_file, output_file)
+
+elif choice == "2":
+    input_file = input("Enter the protected file name: ")
+    output_file = input("Enter the restored file name: ")
+    restore_file(input_file, output_file)
+
+else:
+    print("Invalid choice.")
