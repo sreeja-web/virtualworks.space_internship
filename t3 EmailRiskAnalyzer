@@ -1,0 +1,60 @@
+import re
+
+def analyze_email(email_text):
+    risk_score = 0
+    warnings = []
+
+    # Suspicious urgent words
+    urgent_keywords = [
+        "urgent", "immediately", "verify now",
+        "account suspended", "click now", "limited time"
+    ]
+
+    # Sensitive information requests
+    sensitive_keywords = [
+        "password", "otp", "bank details",
+        "credit card", "ssn", "pin"
+    ]
+
+    # Check urgent keywords
+    for word in urgent_keywords:
+        if word.lower() in email_text.lower():
+            risk_score += 1
+            warnings.append(f"Suspicious urgent phrase detected: '{word}'")
+
+    # Check sensitive data requests
+    for word in sensitive_keywords:
+        if word.lower() in email_text.lower():
+            risk_score += 1
+            warnings.append(f"Sensitive information request detected: '{word}'")
+
+    # Detect links
+    links = re.findall(r'https?://\S+|www\.\S+', email_text)
+    if links:
+        risk_score += len(links)
+        warnings.append("Email contains suspicious links.")
+
+    # Determine risk level
+    if risk_score >= 5:
+        risk_level = "HIGH RISK"
+    elif risk_score >= 3:
+        risk_level = "MEDIUM RISK"
+    else:
+        risk_level = "LOW RISK"
+
+    # Display results
+    print("\n--- Email Risk Analysis ---")
+    print("Risk Level:", risk_level)
+
+    if warnings:
+        print("\nWarnings:")
+        for warning in warnings:
+            print("-", warning)
+    else:
+        print("No suspicious content detected.")
+
+
+# Main Program
+email_content = input("Paste the email content:\n")
+
+analyze_email(email_content)
