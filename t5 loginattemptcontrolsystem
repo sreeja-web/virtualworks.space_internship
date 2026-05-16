@@ -1,0 +1,32 @@
+import time
+
+# Correct password
+correct_password = "Secure123"
+
+# Maximum attempts allowed
+max_attempts = 3
+
+# Temporary lock time in seconds
+lock_time = 10
+
+attempts = 0
+
+while attempts < max_attempts:
+    password = input("Enter password: ")
+
+    if password == correct_password:
+        print("Login successful!")
+        break
+    else:
+        attempts += 1
+        remaining = max_attempts - attempts
+        print(f"Incorrect password. Attempts remaining: {remaining}")
+
+# If maximum attempts reached
+if attempts == max_attempts:
+    print(f"\nToo many failed attempts.")
+    print(f"Access temporarily locked for {lock_time} seconds...")
+
+    time.sleep(lock_time)
+
+    print("You can try logging in again.")
